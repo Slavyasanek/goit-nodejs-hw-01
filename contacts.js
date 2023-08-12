@@ -25,7 +25,7 @@ async function removeContact(contactId) {
         const contactToFind = contacts.findIndex(({ id }) => id === contactId);
         if (contactToFind === -1) return null;
         const [updatedContacts] = contacts.splice(contactToFind, 1);
-        await fs.writeFile(contactsPath, JSON.stringify(contacts));
+        await fs.writeFile(contactsPath, JSON.stringify(contacts, 0, 2));
         return updatedContacts;
     } catch (error) {
         return error;
@@ -37,7 +37,7 @@ async function addContact(name, email, phone) {
         const newContact = {id: Math.random() * 1000, name, email, phone};
         const contacts = await listContacts();
         contacts.push(newContact);
-        await fs.writeFile(contactsPath, contacts);
+        await fs.writeFile(contactsPath, JSON.stringify(contacts, 0, 2));
         return newContact;
     } catch (error) {
         return error;
